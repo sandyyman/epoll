@@ -54,14 +54,16 @@ session_start();
           <span class="icon-bar"></span>
         </button>
         <div class="navbar-header">
-          <a href="#" class="navbar-brand headerFont text-lg" style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
+          <a href="#" class="navbar-brand headerFont text-lg" style="color:rgb(112, 128, 144)"><strong>E-Poll</strong></a>
         </div>
 
         <div class="collapse navbar-collapse" id="example-nav-collapse">
           <ul class="nav navbar-nav">
-          <li><a href="adminlanding.php"><span class="subFont"><strong>Admin Info</strong></span></a></li>
-             <li><a href="candidates.php"><span class="subFont"><strong>Candidates List</strong></span></a></li>
-            <li><a href="statistics.php"><span class="subFont"><strong>Statistics</strong></span></a></li>        
+          <li><a href="adminlanding.php"><span class="subFont"><strong>Admin Details</strong></span></a></li>
+             <li><a href="candidate.php"><span class="subFont"><strong>Candidates List</strong></span></a></li>
+            <li><a href="statistics.php"><span class="subFont"><strong>Statistics</strong></span></a></li>    
+             <li><a href="add_voter.php"><span class="subFont"><strong>Add New Voter</strong></span></a></li>
+              
           </ul>
           
           <span class="normalFont"><a href="index.html" class="btn btn-danger navbar-right navbar-btn"><strong>Log Out</strong></a></span></button>
@@ -76,8 +78,8 @@ session_start();
           <center>
           <div class="page-header">
             <img src="images/GitHub.png" alt="admin" width="250px" height="250px"><br><br>
-            <h2 class="specialHead" >Welcome to ePoll ADMIN PANEL,  <?php echo $_SESSION["fname"] . "!<br>";?></h2><br><br>
-            <span class="glyphicon glyphicon-user"></span>
+            <h2 class="specialHead" >Welcome to the E-Poll Administrator Panel,  <?php echo $_SESSION["fname"] . "!<br>";?></h2><br><br>
+            <!-- <span class="glyphicon glyphicon-user"></span> -->
             <p class="normalFont"><?php  echo "Admin ID : " . $_SESSION["aid"] . "<br>";
                                         echo "User Name : " . $_SESSION["aname"] . ""; ?></p>
           </center>

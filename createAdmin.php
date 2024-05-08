@@ -40,7 +40,7 @@ if (isset($_POST['createAdmin'])) {
 </head>
 <body>
 <div class="container" style="padding-top:50px;">
-    <h2>Create New Admin</h2>
+    <h2 style= "text-align:center;">Create New Admin</h2>
     <form action="createAdmin.php" method="POST">
         <div class="form-group">
             <label>Admin ID</label>

@@ -97,7 +97,7 @@ include 'config.php';
         <div class="collapse navbar-collapse" id="example-nav-collapse">
           <ul class="nav navbar-nav">
           <li><a href="adminlanding.php"><span class="subFont"><strong>Admin Info</strong></span></a></li>
-             <li><a href="candidates.php"><span class="subFont"><strong>Candidates List</strong></span></a></li>
+             <li><a href="candidate.php"><span class="subFont"><strong>Candidates List</strong></span></a></li>
             <li><a href="statistics.php"><span class="subFont"><strong>Statistics</strong></span></a></li>     
           </ul>
           

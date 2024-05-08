@@ -44,7 +44,7 @@ include 'config.php';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Panel</title>
+    <title>Admin Login</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
@@ -85,7 +85,7 @@ include 'config.php';
 	<div class="container">
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
         <div class="navbar-header">
-          <a href="index.html" class="navbar-brand headerFont text-lg" style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
+          <a href="index.html" class="navbar-brand headerFont text-lg" style="color:rgb(112, 128, 144)"><strong>E-Poll</strong></a>
       </div>
     </nav>
 
@@ -93,10 +93,10 @@ include 'config.php';
     <div class="container" style="padding-top:150px;">
     	<div class="row">
     		<div class="col-sm-4"></div>
-    		<div class="col-sm-4" style="border:2px solid gray;padding:50px;">
+    		<div class="col-sm-4" style="border:2px solid gray;padding:50px; background-color:rgb(112, 128, 144)">
     			
     			<div class="page-header">
-    				<h2 class="specialHead">Authentication</h2>
+    				<h2 class="specialHead">Admin Login</h2>
                 </div>
                 
           <form action="admin.php" method="POST">
@@ -107,14 +107,14 @@ include 'config.php';
               <label>Admin Username</label><br>
       				<input type="text" name="adminUserName" placeholder="Enter Admin's UserName" class="form-control" required><br>
 
-      				<label>Password</label><br>
+      				<label>Admin Password</label><br>
       				<input type="password" name="adminPassword" class="form-control" placeholder="Enter Admin's Password" required><br>
 
               <h5 style="color: red;"><?php echo $error; ?></h5><br>
 
-      				<button type="submit" name="submit" class="btn btn-block span btn-primary "><span class="glyphicon glyphicon-user"></span> Sign In</button>
+      				<button type="submit" name="submit" class="btn btn-block span btn-success btn-primary ">Sign In</button>
 
-              <a href="createAdmin.php" class="link-create-admin">Create New Admin</a>
+              <a href="createAdmin.php" class="link-create-admin btn-danger ">Create New Admin</a>
 
       			</div>
 
