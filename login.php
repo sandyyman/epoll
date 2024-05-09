@@ -1,70 +1,74 @@
 <?php 
-  session_start();
-  include 'config.php';
-    $conn = mysqli_connect($db_host,$db_user,$db_password,$db_name);
-    $success = "";
-    $error_message = "";
-	$error='';
-	
-	if(isset($_POST['submit_email'])){
-		$email=$_POST['email'];
-		$password=$_POST['password'];
-        if($conn){
-			$sql="SELECT * FROM voter WHERE email='$email' AND password='$password'";
-      echo "1";
-            $res=mysqli_query($conn,$sql);
-            
-			if(mysqli_num_rows($res)>0){
-                $voters=mysqli_fetch_all($res,MYSQLI_ASSOC);
-                $active = $voters[0]['active'];
-                if($active == 1)
-                {
-                    $_SESSION['name'] = $voters[0]['name'];
-                    $_SESSION['email'] = $voters[0]['email'];
-                    $_SESSION['age'] = $voters[0]['age'];
-                    $_SESSION['voter_id'] = $voters[0]['voter_id'];
-                    $_SESSION['uname'] = $voters[0]['uname'];
-                    $_SESSION['password']=$password;
-                    $_SESSION['voter_photo'] = $voters[0]['voter_photo'];
-                    // generate OTP
-                    $otp = rand(100000,999999);
-                    // Send OTP
-                    require_once("mail_function.php");
-                    $mail_status = sendOTP($_POST["email"],$otp);
-                    
-                    if($mail_status == 1) {
-                      //$id=$id+1;
-                      $result = mysqli_query($conn,"INSERT INTO otp_expiry(otp,is_expired,create_at) VALUES ('" . $otp . "', 0, '" . date("Y-m-d H:i:s"). "')");
-                      $current_id = mysqli_insert_id($conn);
-                      if(!empty($current_id)) {
-                        $success=1;
-                      }
-                    }
-                    // setcookie("voterName",$voters[0]['name'], time() + 60*60*24,'/');
-                    
-                }
-                else
-                {
-                    echo 'account is not activated';
-                }
+session_start();
+include 'config.php';
+require_once "./PHPMailer/src/PHPMailer.php";
+require_once "./PHPMailer/src/SMTP.php";
+require_once "./PHPMailer/src/Exception.php";
+
+$conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
+$success = "";
+$error_message = "";
+$error = '';
+
+if (isset($_POST['submit_email'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if ($conn) {
+        $sql = "SELECT * FROM voter WHERE email='$email' AND password='$password'";
+        $res = mysqli_query($conn, $sql);
+        
+        if (mysqli_num_rows($res) > 0) {
+            $voters = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            $active = $voters[0]['active'];
+
+            if ($active == 1) {
+                $_SESSION['name'] = $voters[0]['name'];
+                $_SESSION['email'] = $voters[0]['email'];
+                $_SESSION['age'] = $voters[0]['age'];
+                $_SESSION['voter_id'] = $voters[0]['voter_id'];
+                $_SESSION['uname'] = $voters[0]['uname'];
+                $_SESSION['password'] = $password;
+                $_SESSION['voter_photo'] = $voters[0]['voter_photo'];
                 
-			}
-			else{
-				$error='*Incorrect id/password';
-			}
-		}
-	}
-  if(isset($_POST["submit_otp"])) {
-    $result = mysqli_query($conn,"SELECT * FROM otp_expiry WHERE otp='" . $_POST["otp"] . "' AND is_expired!=1 AND NOW() <= DATE_ADD(create_at, INTERVAL 24 HOUR)");
-    $count  = mysqli_num_rows($result);
-    if(!empty($count)) {
-      $result = mysqli_query($conn,"UPDATE otp_expiry SET is_expired = 1 WHERE otp = '" . $_POST["otp"] . "'");
-      $success = 2;	
+                // Generate OTP
+                $otp = rand(100000, 999999);
+                
+                // Send OTP
+                require_once("mail_function.php");
+                $mail_status = sendOTP($email, $otp);
+                
+                if ($mail_status) {
+                    $result = mysqli_query($conn, "INSERT INTO otp_expiry(otp, is_expired, create_at) VALUES ('" . $otp . "', 0, '" . date("Y-m-d H:i:s") . "')");
+                    $current_id = mysqli_insert_id($conn);
+                    
+                    if (!empty($current_id)) {
+                        $success = 1;
+                    }
+                } else {
+                    $error_message = "Failed to send OTP. Please try again later.";
+                }
+            } else {
+                echo 'Account is not activated';
+            }
+        } else {
+            $error = '*Incorrect id/password';
+        }
+    }
+}
+
+if (isset($_POST["submit_otp"])) {
+    $result = mysqli_query($conn, "SELECT * FROM otp_expiry WHERE otp='" . $_POST["otp"] . "' AND is_expired!=1 AND NOW() <= DATE_ADD(create_at, INTERVAL 24 HOUR)");
+    $count = mysqli_num_rows($result);
+
+    if (!empty($count)) {
+        $result = mysqli_query($conn, "UPDATE otp_expiry SET is_expired = 1 WHERE otp = '" . $_POST["otp"] . "'");
+        $success = 2;
     } else {
-      $success =1;
-      $error_message = "Invalid OTP!";
-    }	
-  }
+        $success = 1;
+        $error_message = "Invalid OTP!";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -73,30 +77,25 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
-
     <style>
-      .headerFont{
+      .headerFont {
         font-family: 'Ubuntu', sans-serif;
         font-size: 24px;
       }
-
-      .subFont{
+      .subFont {
         font-family: 'Raleway', sans-serif;
         font-size: 14px;
-        
       }
-      
-      .specialHead{
+      .specialHead {
         font-family: 'Oswald', sans-serif;
       }
-
-      .normalFont{
+      .normalFont {
         font-family: 'Roboto Condensed', sans-serif;
       }
     </style>
@@ -120,7 +119,7 @@
                 <form method="post" action="login.php">
                     <div class="form-group">
                       <?php 
-                        if(!empty($success == 1)) { 
+                        if (!empty($success == 1)) { 
                       ?>
                       <label>Enter OTP</label>
                       <p style="color:#31ab00;">Check your email for the OTP</p>

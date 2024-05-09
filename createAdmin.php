@@ -39,10 +39,11 @@ if (isset($_POST['createAdmin'])) {
     <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    
 <div class="container" style="padding-top:50px;">
     <h2 style= "text-align:center;">Create New Admin</h2>
     <form action="createAdmin.php" method="POST">
-        <div class="form-group">
+        <div class="form-group" >
             <label>Admin ID</label>
             <input type="text" name="newAdminId" class="form-control" required>
             <label>Username</label>

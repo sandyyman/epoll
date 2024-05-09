@@ -1,35 +1,42 @@
-<?php	
-	function sendOTP($email,$otp) {
-		// require('phpmailer/class.phpmailer.php');
-		// require('phpmailer/class.smtp.php');
-		require_once('../PHPMailer/PHPMailer-5.2-stable/PHPMailerAutoload.php');
-		
-		$from='erudite.onlinevoting@gmail.com';
-		$password='eruditeproject';
+<?php
 
-		$message_body = "One Time Password for PHP login authentication is:<br/><br/>" . $otp;
-	
-		
-		require_once('../PHPMailer/PHPMailer-5.2-stable/PHPMailerAutoload.php');
-                $from='erudite.onlinevoting@gmail.com';
-                $to=$email;
-                $password='eruditeproject';
-                $sub='Signup | Verification';
-                $body=$message_body;
-                $mail = new PHPMailer(); 
-                $mail->isSMTP();
-                $mail->SMTPAuth = true;
-                $mail->SMTPSecure = 'ssl';
-                $mail->Host = 'smtp.gmail.com';
-                $mail->Port = '465';
-                $mail->isHTML();
-                $mail->Username = $from;
-                $mail->Password = $password;
-                $mail->Subject = $sub;
-                $mail->Body = $body;
-				$mail->AddAddress($to);
-				$result = $mail->Send();
-                		
-			return $result;
-	}
+function sendOTP($email, $otp) {
+    require_once('./PHPMailer/PHPMailerAutoload.php');
+    require_once('vendor/autoload.php');
+
+
+    $from = 'epollad01@gmail.com';
+    $password = 'SandeepKumar08';
+    $message_body = "One Time Password for PHP login authentication is:<br/><br/>" . $otp;
+    $subject = 'Signup | Verification';
+
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer();
+
+    // SMTP configuration
+    $mail->isSMTP();
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = 'ssl';
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = 465;
+
+    // Sender's email and password
+    $mail->Username = $from;
+    $mail->Password = $password;
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $message_body;
+
+    // Recipient
+    $mail->addAddress($email);
+
+    // Send email and return the result
+    if ($mail->send()) {
+        return true; // Email sent successfully
+    } else {
+        return false; // Email sending failed
+    }
+}
 ?>
