@@ -1,93 +1,91 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-  
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+session_start();
+require 'PHPMailer/PHPMailerAutoload.php'; // Include PHPMailer library
+
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Generate a random 6-digit OTP
+$otp = rand(100000, 999999);
+
+// Save OTP in session
+$_SESSION['otp'] = $otp;
+
+// Prepare email
+$mail = new PHPMailer;
+
+try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host = 'smtp.example.com'; // Set the SMTP server to send through
+    $mail->SMTPAuth = true;
+    $mail->Username = 'your-email@example.com'; // SMTP username
+    $mail->Password = 'your-email-password'; // SMTP password
+    $mail->SMTPSecure = 'tls'; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+    $mail->Port = 587; // TCP port to connect to
+
+    // Recipients
+    $mail->setFrom('no-reply@example.com', 'Your App Name');
+    $mail->addAddress($_SESSION['email']); // Add recipient's email
+
+    // Content
+    $mail->isHTML(true); // Set email format to HTML
+    $mail->Subject = 'Your OTP Code';
+    $mail->Body = 'Your OTP code is: <b>' . $otp . '</b>';
+    $mail->AltBody = 'Your OTP code is: ' . $otp;
+
+    $mail->send();
+    $message = 'OTP has been sent to your email.';
+} catch (Exception $e) {
+    $message = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
+// Check OTP if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_otp'])) {
+    $entered_otp = $_POST['otp'];
+
+    // Verify OTP
+    if ($entered_otp == $_SESSION['otp']) {
+        header("Location: vote.php");
+        exit();
+    } else {
+        $error = "Invalid OTP. Please try again.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Verification</title>
-    <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
-
-    <style>
-      .headerFont{
-        font-family: 'Ubuntu', sans-serif;
-        font-size: 24px;
-      }
-      .subFont{
-        font-family: 'Raleway', sans-serif;
-        font-size: 14px;
-      }
-      .specialHead{
-        font-family: 'Oswald', sans-serif;
-      }
-
-      .normalFont{
-        font-family: 'Roboto Condensed', sans-serif;
-      }
-    </style>
 </head>
-
-
 <body>
-    <div class="container">
-  	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-        <div class="navbar-header">
-          <a href="index.html" class="navbar-brand headerFont text-lg" style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
-      </div>
-    </nav>
-    
-    <center>
-
-    <div class="container" style="padding:100px;">
-      <div class="row">
-        <div class="col-sm-12" style="border:2px solid gray;">
-          <center>
-          <div class="page-header">
-            <h2 class="specialHead" style="color:rgb(169, 208, 240)">ACCOUNT VERIFICATION</h2><br>
-            <img src="images/verified.png" alt="admin" width="150px" height="150px"><br><br>
-            <div id="wrap">
-                    <?php
-                    include 'config.php';
-                    $conn = mysqli_connect($db_host,$db_user,$db_password,$db_name);
-                        if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
-                            $email = $_GET['email']; 
-                            $hash = $_GET['hash']; 
-                            $sql = "SELECT email, hash, active FROM voter WHERE email='".$email."' AND hash='".$hash."' AND active='0'";
-                            $res = mysqli_query($conn,$sql);
-                            $match  = mysqli_num_rows($res);  
-                            echo $email; 
-                            
-                            if($match > 0){
-                              
-                                $sql = "UPDATE voter SET active='1' WHERE email='".$email."' AND hash='".$hash."' AND active='0'";
-                                $res = mysqli_query($conn,$sql);
-
-                                echo '<div class="statusmsg normalFont">Your account has been activated, you can now Login to caste your vote! <br> Thankyou for Registering!</div>';
-                            }else{
-                                echo '<div class="statusmsg normalFont">The URL is either invalid or you already have activated your account.</div>';
-                            }
-                        }else{
-                            echo '<div class="statusmsg normalFont">Invalid approach, please use the link that has been send to your email.</div>';
-                        }   
-                        
-                    ?>
-            
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4" style="border:2px solid black;padding:50px; background-color:rgb(112, 128, 144)">
+            <div class="page-header">
+                <h2 class="specialHead">Verify OTP</h2>
+                <h5 style="color: green;"><?php echo $message; ?></h5>
+            </div>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="form-group">
+                    <label>OTP:</label>
+                    <input type="text" name="otp" class="form-control" required><br>
+                    <h5 style="color: red;"><?php if (isset($error)) echo $error; ?></h5>
+                    <button type="submit" name="submit_otp" class="btn btn-block btn-primary">Verify</button>
                 </div>
-
-                <br>
-                <div class="statusmsg normalFont">You may close this tab and go to SIGN UP page of our website.</div>
-          </center>
-          </div>
+            </form>
         </div>
-      </div>
+        <div class="col-sm-4"></div>
     </div>
-  
-  </center>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

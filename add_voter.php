@@ -20,9 +20,9 @@ if(isset($_POST['insert'])){
         // Insert the voter data into the govt_db table
         $sql_insert = "INSERT INTO govt_db (voter_id, email) VALUES ('$voter_id', '$email')";
         if(mysqli_query($conn, $sql_insert)){
-            // Redirect to the voters list page after successful insertion
+            // Redirection to the voters list page after successful insertion
             header('Location: adminlanding.php');
-            exit(); // Ensure script execution stops after redirect
+            exit(); 
         } else {
             $error = "Error: " . mysqli_error($conn);
         }
@@ -75,11 +75,9 @@ if(!$conn){
 <div class="container">
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
         <div class="container">
-            <!-- Navbar header and brand -->
-            <!-- Navbar toggle button -->
             <div class="navbar-header">
-                <!-- Your brand/logo here -->
-                <a href="#" class="navbar-brand headerFont text-lg" style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
+                <!-- logo here -->
+                <a href="#" class="navbar-brand headerFont text-lg" style="color:rgb(112, 128, 144)"><strong>E-Poll</strong></a>
             </div>
             <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="example-nav-collapse">

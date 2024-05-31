@@ -10,7 +10,7 @@ if (!$conn) {
 if (isset($_POST['createAdmin'])) {
     $newAid = $_POST['newAdminId'];
     $newAname = mysqli_real_escape_string($conn, $_POST['newAdminUserName']);
-    $newApwd = password_hash($_POST['newAdminPassword'], PASSWORD_DEFAULT); // Securely hashing the password
+    $newApwd = $_POST['newAdminPassword']; // Securely hashing the password
 
     // Prepare SQL statement to insert new admin data
     $stmt = $conn->prepare("INSERT INTO admin (aid, aname, apwd) VALUES (?, ?, ?)");

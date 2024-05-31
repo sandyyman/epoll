@@ -22,7 +22,7 @@ include 'config.php';
         $res=mysqli_query($conn,$sql);
         if(mysqli_num_rows($res)>0)
         {
-            $admin=mysqli_fetch_all($res,MYSQLI_ASSOC);
+            $admin=mysqli_fetch_all($res,MYSQLI_ASSOC); //returns all the data fetched as an associative array
             $_SESSION['aname'] = $aname;
             $_SESSION['fname'] = $fname;
             $_SESSION['aid']=$admin[0]['aid'];
