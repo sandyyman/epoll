@@ -15,13 +15,13 @@ if (!$conn) {
 if (isset($_POST['delete'])) {
     $delid = $_POST["cid"]; 
 
-    // Ensure that the input is an integer to prevent SQL injection
+    // Making sure input in integer
     $delid = intval($delid);
 
-    // First delete related rows in the votes table
+    // First step delete related rows in the votes table as candidate id is on delete cascade
     $sql_votes = "DELETE FROM votes WHERE cid=$delid";
     if (mysqli_query($conn, $sql_votes)) {
-        // Then delete the candidate row
+        // Deleting the candidate row
         $sql_candidate = "DELETE FROM candidate WHERE cid=$delid";
         if (mysqli_query($conn, $sql_candidate)) {
             echo '<script>alert("Row Deleted Successfully!")</script>';
@@ -43,7 +43,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Control Panel</title>
+    <title>Candidate List</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
@@ -130,6 +130,7 @@ $result = mysqli_query($conn, $sql);
                                 <th>Update</th>
                                 <th>Delete</th>
                             </tr>
+    <!--fetching the data from candidate table and storing in associative array -->
                             <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                                 <tr>
                                     <td><?php echo $row["cid"]; ?></td>

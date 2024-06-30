@@ -54,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['verify_otp'])) {
     $user_otp = $_POST['otp'];
 
     // Prepare a select statement to check the OTP
+    //Email from session and opt is stored in $user_otp
     $stmt = $conn->prepare("SELECT * FROM otp_expiry WHERE email = ? AND otp = ?");
     $stmt->bind_param("ss", $email, $user_otp);
     $stmt->execute();
@@ -61,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['verify_otp'])) {
 
     if ($result->num_rows == 1) {
         // OTP is correct, delete the OTP entry and redirect to vote.php
+        // Deleting otp so that voter can verify and go to polling booth but reject when voted again
         $delete_stmt = $conn->prepare("DELETE FROM otp_expiry WHERE email = ?");
         $delete_stmt->bind_param("s", $email);
         $delete_stmt->execute();

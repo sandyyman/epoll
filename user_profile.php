@@ -57,7 +57,7 @@ if (!$conn) {
                 <div class="col-sm-12" style="border: 2px solid gray;">
                     <center>
                         <div class="page-header">
-                            <img src="images/HowTo.png" alt="admin" width="200px" height="200px"><br><br>
+                            <img src="./images/profile.png" alt="admin" width="200px" height="200px"><br><br>
                             <h2 class="specialHead">Welcome to Online Voting System, <?php echo htmlspecialchars($_SESSION["name"] ?? ''); ?>!</h2><br>
                             <span class="glyphicon glyphicon-user"></span>
                             <p class="subFont">

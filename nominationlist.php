@@ -19,7 +19,7 @@ include 'config.php';
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CR Voting | Green Syntax</title>
+    <title>Nomination List</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     

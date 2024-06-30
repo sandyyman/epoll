@@ -83,7 +83,7 @@ if(!$conn){
             <div class="collapse navbar-collapse" id="example-nav-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="adminlanding.php"><span class="subFont"><strong>Admin Info</strong></span></a></li>
-                    <li><a href="candidates.php"><span class="subFont"><strong>Candidates List</strong></span></a></li>
+                    <li><a href="candidate.php"><span class="subFont"><strong>Candidates List</strong></span></a></li>
                     <li><a href="statistics.php"><span class="subFont"><strong>Statistics</strong></span></a></li>
                 </ul>
                 <!-- Logout button -->
@@ -113,9 +113,7 @@ if(!$conn){
         </div>
     </div>
     <div class="container" style="padding:20px 30px 30px 30px;">
-        <center>
-            <button type="button" name="display" class="btn btn-info"><a href="voters.php"><span class="glyphicon glyphicon-step-backward"></span>DISPLAY LIST</button>
-        </center>
+        
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

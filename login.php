@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_login'])) {
 
     $sql = "SELECT voter_id, name, age, uname, email, password FROM voter WHERE email='$email'";
     $res = mysqli_query($conn, $sql);
-
+    // $sql contains the query, $res will store set object for select statement and for insert, delete etc stored true or false
     if (mysqli_num_rows($res) > 0) {
         $voter = mysqli_fetch_assoc($res);
         // Compare plaintext passwords

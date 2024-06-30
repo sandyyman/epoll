@@ -8,7 +8,7 @@ session_start();
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Control Panel</title>
+    <title>Admin Landing</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -77,9 +77,9 @@ session_start();
         <div class="col-sm-12" style="border:2px solid gray;">
           <center>
           <div class="page-header">
-            <img src="images/GitHub.png" alt="admin" width="250px" height="250px"><br><br>
+            <img src="./images/profile.png" alt="admin" width="250px" height="250px"><br><br>
             <h2 class="specialHead" >Welcome to the E-Poll Administrator Panel,  <?php echo $_SESSION["fname"] . "!<br>";?></h2><br><br>
-            <!-- <span class="glyphicon glyphicon-user"></span> -->
+            <!-- fetching the aid and aname from the current session-->
             <p class="normalFont"><?php  echo "Admin ID : " . $_SESSION["aid"] . "<br>";
                                         echo "User Name : " . $_SESSION["aname"] . ""; ?></p>
           </center>

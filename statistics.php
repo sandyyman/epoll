@@ -68,7 +68,7 @@ $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
  <br><br><br>
 
 <?php
-//--------------Pie Chart ---------------------
+//Pie Chart
 $dataPointsPie = array();
 $totalVotes = 0;
 
@@ -88,7 +88,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   array_push($dataPointsPie, array("label" => $label, "y" => $percent));
 }
 
-//-------------Bar Graph-----------------//
+//Bar Graph
 $dataPointsBar = array(); 
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_assoc($result)) { 
