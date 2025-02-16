@@ -33,5 +33,12 @@ Epoll is a web-based polling application developed using PHP and HTML. It allows
 - images/: Stores image files.
 - php files: Handles various functionalities such as login, registration, voting, and admin management.
 
+## Snapshots
+![Screenshot (139)](https://github.com/user-attachments/assets/f7ee16bf-dd48-472b-847e-661964657bb1)
+![Screenshot (143)](https://github.com/user-attachments/assets/fc3f7b3c-98f7-4c65-8a4d-e7b593f19abe)
+![Screenshot (151)](https://github.com/user-attachments/assets/c6476d3a-8e4e-4882-98d2-7f0ab9a3b3be)
+
+
+
 ## License
 This project is licensed under the MIT License.
